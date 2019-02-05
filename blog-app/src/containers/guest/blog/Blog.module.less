@@ -1,0 +1,45 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../../../variables.less';
+
+// sub menu style
+.sub-menu{
+  &__user-info-group{
+     height: 240px;
+  }
+  .user-info-group{
+    &__logo{
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      & img{
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%);
+        transition: all 0.3s @ease-out;
+        &.logo--collapsed{
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+    &__name{
+      text-align: center;
+      color: @white;
+      margin-bottom: 19px;
+      &--hidden{
+        opacity: 0;
+      }
+    }
+  }
+}
+
+
+// content style
+.content{
+  padding: 45px 20px 0px 20px;
+  max-width: 750px;
+  margin: 0 auto;
+}

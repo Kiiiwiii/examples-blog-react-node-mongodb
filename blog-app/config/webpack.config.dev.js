@@ -32,6 +32,7 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -348,8 +349,10 @@ module.exports = {
               'sass-loader'
             ),
           },
+          // for antdesign theme
           {
             test: lessRegex,
+            exclude: lessModuleRegex,
             use: getStyleLoaders({
             }, {
               loader: require.resolve('less-loader'),
@@ -358,6 +361,21 @@ module.exports = {
                 javascriptEnabled: true
               }
             }),
+          },
+          {
+            test: lessModuleRegex,
+            use: getStyleLoaders({
+                importLoaders: 2,
+                modules: true,
+                getLocalIdent: getCSSModuleLocalIdent,
+              },
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  javascriptEnabled: true
+                }
+              }
+            ),
           },
 
           // "file" loader makes sure those assets get served by WebpackDevServer.

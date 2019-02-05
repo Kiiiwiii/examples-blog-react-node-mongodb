@@ -12,6 +12,8 @@ class App extends React.Component {
         <Route path="/blog" component={Blog} />
 
         {/* @TODOs routes for admin */}
+
+        {/* @TODOs routes for 404 */}
       </div>
     );
   }
