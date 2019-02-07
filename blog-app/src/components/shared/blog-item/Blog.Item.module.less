@@ -1,0 +1,45 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../../../variables.less';
+
+@section-gap: 60px;
+
+.blog-container{
+  padding: @section-gap 20px;
+  border-bottom: @border-width-base @border-style-base @border-color-base;
+  position: relative;
+  &:first-child{
+    padding-top: 15px;
+  }
+  .blog__header{
+    text-align: left;
+    font-size: calc(@font-size-base * 2);
+    font-weight: @bold-medium;
+    margin-bottom: 5px;
+  }
+  .blog__meta{
+    margin-bottom: @section-gap;
+    display: flex;
+    align-items: center;
+    & > *:not(:first-child) {
+      margin-left: 10px;
+    }
+    & > *{
+      color: @primary-color;
+      font-size: @font-size-sm;
+    }
+    .meta__split{
+      margin: 0 10px 0 20px;
+    }
+  }
+  .blog__overview{}
+  .blog__read-more{
+    display: flex;
+    justify-content: center;
+
+    position: absolute;
+    width: 100%;
+    margin-top: -100px;
+    padding-top: 100px;
+    background-image: linear-gradient(-180deg, rgba(255, 255, 255, 0) 0%, #fcfdfd 70%);
+  }
+}

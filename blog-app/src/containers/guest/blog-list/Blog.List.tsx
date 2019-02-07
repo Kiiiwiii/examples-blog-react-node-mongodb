@@ -1,8 +1,8 @@
 import * as React from 'react';
-import MarkDownView from '../../../components/shared/md-view/MarkDown.View';
 import axios from 'axios';
+import BlogListSkeleton from 'src/components/shared/blog-list-skeleton/Blog.List.Skeleton';
 
-class BlogOverviewList extends React.Component<any, Guest.BlogModule.BlogListResponse> {
+class BlogList extends React.Component<any, BlogModule.BlogListResponse> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -12,6 +12,7 @@ class BlogOverviewList extends React.Component<any, Guest.BlogModule.BlogListRes
   }
   public componentDidMount() {
     axios.get('../fake-data/fake-blog-list.json').then(r => {
+      console.log(r);
       return {
         data: (r.data as any).data,
         total: (r.data as any).data.length
@@ -24,13 +25,9 @@ class BlogOverviewList extends React.Component<any, Guest.BlogModule.BlogListRes
     })
   }
   public render() {
-    const {data} = this.state;
-    return <div>
-      {data.map(blog => (
-        <MarkDownView key={blog.id} source={blog.summary}/>
-      ))}
-    </div>;
+    const {data, total} = this.state;
+    return <BlogListSkeleton data={data} total={total}/>;
   }
 }
 
-export default BlogOverviewList;
+export default BlogList;

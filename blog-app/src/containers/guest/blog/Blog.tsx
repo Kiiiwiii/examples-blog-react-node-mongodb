@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import { MenuTheme } from 'antd/lib/menu';
 import NotFound from 'src/components/shared/404/404';
-import BlogOverviewList from '../blog-overview-list/Blog.Overview.List';
+import BlogList from '../blog-list/Blog.List';
 
 const {
   Content, Footer, Sider,
@@ -29,11 +29,11 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     to: string,
     component: React.ComponentType
   }> = [
-    {type: 'book', name: 'Blogs', to: 'list', component: BlogOverviewList},
-    {type: 'tags', name: 'Tags', to: 'tags', component: BlogOverviewList},
-    {type: 'folder', name: 'Categories', to: 'category', component: BlogOverviewList},
-    {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogOverviewList},
-    {type: 'smile', name: 'About', to: 'about', component: BlogOverviewList}
+    {type: 'book', name: 'Blogs', to: 'list', component: BlogList},
+    {type: 'tags', name: 'Tags', to: 'tags', component: BlogList},
+    {type: 'folder', name: 'Categories', to: 'category', component: BlogList},
+    {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogList},
+    {type: 'smile', name: 'About', to: 'about', component: BlogList}
   ];
   // small screen size equals to 'md' breakpoint in antd,
   // and medium screen size equals to 'lg' breakpoint in antd.
