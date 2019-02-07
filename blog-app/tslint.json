@@ -10,10 +10,19 @@
   "rules": {
     "interface-name": [true, "never-prefix"],
     "object-literal-sort-keys": false,
-    "no-console": [false],
+    "no-console": [
+      true,
+      "log",
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-empty": false,
     "ordered-imports": false,
     "no-string-literal": false,
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"]
-  }
+  },
+  "defaultSeverity": "warning"
 }

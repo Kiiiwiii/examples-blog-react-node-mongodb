@@ -6,9 +6,9 @@ import logo from '../../../assets/images/logo.jpg';
 import {
   Layout, Menu, Icon,
 } from 'antd';
-import BlogList from '../b-list/Blog.List';
 import { MenuTheme } from 'antd/lib/menu';
 import NotFound from 'src/components/shared/404/404';
+import BlogOverviewList from '../blog-overview-list/Blog.Overview.List';
 
 const {
   Content, Footer, Sider,
@@ -29,11 +29,11 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     to: string,
     component: React.ComponentType
   }> = [
-    {type: 'book', name: 'Blogs', to: 'list', component: BlogList},
-    {type: 'tags', name: 'Tags', to: 'tags', component: BlogList},
-    {type: 'folder', name: 'Categories', to: 'category', component: BlogList},
-    {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogList},
-    {type: 'smile', name: 'About', to: 'about', component: BlogList}
+    {type: 'book', name: 'Blogs', to: 'list', component: BlogOverviewList},
+    {type: 'tags', name: 'Tags', to: 'tags', component: BlogOverviewList},
+    {type: 'folder', name: 'Categories', to: 'category', component: BlogOverviewList},
+    {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogOverviewList},
+    {type: 'smile', name: 'About', to: 'about', component: BlogOverviewList}
   ];
   // small screen size equals to 'md' breakpoint in antd,
   // and medium screen size equals to 'lg' breakpoint in antd.
@@ -45,7 +45,6 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
 
   constructor(props: RouteComponentProps) {
     super(props);
-    console.log(this.props);
     const size: ScreenHorizontalSize =
       this.window.innerWidth > this.widthOfMediumScreen ? 'big' :
       this.window.innerWidth > this.widthOfSmallScreen ? 'medium' : 'small';
@@ -57,7 +56,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
   }
 
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.currentPath = this.props.match.url + '/';
     this.window.addEventListener('resize', this.windowResizeListener);
   }
@@ -86,7 +85,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
             </div>
             <p className={
               styles['user-info-group__name'] + ' '
-              + (isCollapsed ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
+              + (isCollapsed || size === 'medium' ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
           </div>
 
           <Menu theme={this.subBarColor} defaultSelectedKeys={['1']} mode="inline">

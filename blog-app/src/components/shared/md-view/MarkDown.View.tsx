@@ -1,12 +1,13 @@
 import * as Markdown from 'remarkable';
 import * as React from 'react';
+import './MarkDown.View.less';
 import * as hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 
 const md = new Markdown('full',{
   html: false,
   xhtmlOut: false,
-  breaks: false,
+  breaks: true,
   langPrefix: 'language-',
   linkify: true,
   linkTarget: '__blank',
@@ -24,27 +25,11 @@ const md = new Markdown('full',{
     return ''; // use external default escaping
   }
 } as any);
-const mdsource = `\`\`\` js
-var foo = function (bar) {
-  return bar++;
-};
 
-console.log(foo(5));
-\`\`\`
-> abc
-
-__[pica](https://nodeca.github.io/pica/demo/)__
-
-`
-
-class MarkDownView extends React.Component {
-  public render() {
-    return (
-      <div dangerouslySetInnerHTML={{
-        __html: md.render(mdsource)
-      }} />
-    )
-  }
+function MarkDownView(props: {source: string}) {
+  return <div dangerouslySetInnerHTML={{
+    __html: md.render(props.source)
+  }} />
 }
 
 export default MarkDownView;
