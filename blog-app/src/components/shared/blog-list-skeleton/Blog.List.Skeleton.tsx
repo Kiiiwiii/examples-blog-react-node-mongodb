@@ -2,8 +2,14 @@ import * as React from 'react';
 import {List} from 'antd';
 import BlogItem from '../blog-item/Blog.Item';
 
-class BlogListSkeleton extends React.Component<BlogModule.BlogListResponse> {
+interface BlogListSkeletonProps extends BlogModule.BlogListResponse{
+  limit: number;
+}
+class BlogListSkeleton extends React.Component<BlogListSkeletonProps> {
 
+  private get limit() {
+    return this.props.limit;
+  }
   private get total() {
     return this.props.total;
   }
@@ -11,7 +17,7 @@ class BlogListSkeleton extends React.Component<BlogModule.BlogListResponse> {
     return this.props.data;
   }
 
-  constructor(props: BlogModule.BlogListResponse) {
+  constructor(props: BlogListSkeletonProps) {
     super(props);
   }
   public render() {
@@ -20,7 +26,7 @@ class BlogListSkeleton extends React.Component<BlogModule.BlogListResponse> {
         itemLayout="vertical"
         size="large"
         pagination={{
-          pageSize: 3,
+          pageSize: this.limit,
           total: this.total,
           onChange: (page) => {
             console.log(page);

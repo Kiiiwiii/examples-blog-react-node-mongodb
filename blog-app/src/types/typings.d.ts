@@ -11,6 +11,13 @@ declare namespace BlogModule {
     tags?: any,
 
   }
+
+  interface BlogListOptions {
+    offset: number;
+    limit: number;
+    // @TODO extends here
+  }
+
   interface BlogListResponse {
     data: Blog[],
     total: number

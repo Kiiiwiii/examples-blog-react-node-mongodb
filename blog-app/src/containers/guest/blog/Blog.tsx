@@ -50,7 +50,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
       this.window.innerWidth > this.widthOfSmallScreen ? 'medium' : 'small';
     this.lastWindowHorizontalSize = size;
     this.state = {
-      collapsed: false,
+      collapsed: size === 'small',
       screenHorizontalSize: size
     };
   }
@@ -125,7 +125,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
   private windowResizeListener = () => {
     if (this.window.innerWidth < 768 && this.lastWindowHorizontalSize !== 'small') {
       this.lastWindowHorizontalSize = 'small';
-      this.setState({ screenHorizontalSize: 'small' });
+      this.setState({ screenHorizontalSize: 'small', collapsed: true});
       return;
     }
     if (this.window.innerWidth > 992 && this.lastWindowHorizontalSize !== 'big') {
