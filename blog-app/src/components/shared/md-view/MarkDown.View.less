@@ -1,4 +1,7 @@
+@import '../../../variables.less';
+
 // md
+// blockquote
 blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
@@ -57,4 +60,29 @@ blockquote.pull-right .small:after {
 blockquote:before,
 blockquote:after {
   content: "";
+}
+
+// table
+thead{
+  tr{
+    border-bottom: 2px solid #ddd;
+    td{
+      padding: 8px;
+    }
+  }
+}
+tbody{
+  tr{
+    border-bottom: 1px solid #ddd;
+    td {
+      padding: 8px;
+    }
+    &:nth-child(odd){
+      background-color: #f9f9f9;
+    }
+    &:nth-child(even){
+      background-color: @white;
+    }
+  }
+
 }
