@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, Link, RouteComponentProps } from 'react-router-dom';
+import { Route, Link, RouteComponentProps, Switch } from 'react-router-dom';
 import styles from './Blog.module.less';
 import logo from '../../../assets/images/logo.jpg';
 
@@ -8,6 +8,7 @@ import {
 } from 'antd';
 import BlogList from '../b-list/Blog.List';
 import { MenuTheme } from 'antd/lib/menu';
+import NotFound from 'src/components/shared/404/404';
 
 const {
   Content, Footer, Sider,
@@ -102,9 +103,12 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
         </Sider>
         <Layout>
           <Content className={styles['content']}>
-            {this.menuItems.map((item, index) => (
-              <Route key={index} path={this.currentPath + item.to} component={item.component}/>
-            ))}
+            <Switch>
+              {this.menuItems.map((item, index) => (
+                <Route key={index} path={this.currentPath + item.to} component={item.component} />
+              ))}
+              <Route component={NotFound}/>
+            </Switch>
           </Content>
 
           <Footer style={{ textAlign: 'center' }}>
