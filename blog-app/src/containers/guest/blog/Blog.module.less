@@ -29,6 +29,7 @@
       text-align: center;
       color: @white;
       margin-bottom: 19px;
+      transition: opacity 0.3s @ease-out;
       &--hidden{
         opacity: 0;
       }
@@ -38,8 +39,12 @@
 
 
 // content style
-.content{
-  padding: 45px 20px 0px 20px;
-  max-width: 750px;
-  margin: 0 auto;
+.content-wrapper{
+  transition: all 0.3s @ease-out;
+  .content{
+    padding: 45px 40px 0px 40px;
+    max-width: 750px;
+    margin: 0 auto;
+    transition: all 0.3s @ease-out;
+  }
 }

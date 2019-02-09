@@ -67,40 +67,54 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
 
   public render() {
     const { collapsed: isCollapsed, screenHorizontalSize: size} = this.state;
+    const contentLayoutMarginLeft = isCollapsed ? (size === 'medium' || size === 'big' ? 80 : 0) : 200;
 
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout>
         <Sider
+          style={{
+            position: 'fixed',
+            left: 0,
+          }}
           className={styles['sub-menu']}
           collapsible={size !== 'medium'}
-          collapsed={size === 'medium' ? true : this.state.collapsed}
+          collapsed={this.state.collapsed}
           breakpoint={size === 'small' ? 'md' : 'lg'}
           collapsedWidth={size === 'small' ? 0 : 80}
           onCollapse={this.onCollapse}
           theme={this.subBarColor}>
 
-          <div className={styles['sub-menu__user-info-group']}>
-            <div className={styles['user-info-group__logo']}>
-              <img src={logo} className={isCollapsed || size === 'medium' ? styles['logo--collapsed'] : ''}/>
+          <nav style={{overflow: 'auto', height: '100vh'}}>
+            <div className={styles['sub-menu__user-info-group']}>
+              <div className={styles['user-info-group__logo']}>
+                <img src={logo} className={isCollapsed ? styles['logo--collapsed'] : ''} />
+              </div>
+              <p className={
+                styles['user-info-group__name'] + ' '
+                + (isCollapsed ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
             </div>
-            <p className={
-              styles['user-info-group__name'] + ' '
-              + (isCollapsed || size === 'medium' ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
-          </div>
 
-          <Menu theme={this.subBarColor} defaultSelectedKeys={['1']} mode="inline">
-            {this.menuItems.map((item, index) => (
-              <Menu.Item key={index}>
-                <Link key={index} to={this.currentPath + item.to}>
-                  <Icon type={item.type} />
-                  <span>{item.name}</span>
-                </Link>
-              </Menu.Item>
-            ))}
-          </Menu>
+            <Menu theme={this.subBarColor} defaultSelectedKeys={['1']} mode="inline">
+              {this.menuItems.map((item, index) => (
+                <Menu.Item key={index}>
+                  <Link key={index} to={this.currentPath + item.to}>
+                    <Icon type={item.type} />
+                    <span>{item.name}</span>
+                  </Link>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </nav>
 
         </Sider>
-        <Layout>
+        <Layout
+          style={{
+            marginLeft: contentLayoutMarginLeft,
+            height: '100vh',
+            overflow: 'auto',
+            display: 'block'
+          }}
+          className={styles['content-wrapper']}>
           <Content className={styles['content']}>
             <Switch>
               {this.menuItems.map((item, index) => (
@@ -135,7 +149,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     }
     if (this.window.innerWidth < 992 && this.window.innerWidth > 768 && this.lastWindowHorizontalSize !== 'medium') {
       this.lastWindowHorizontalSize = 'medium';
-      this.setState({ screenHorizontalSize: 'medium' });
+      this.setState({ screenHorizontalSize: 'medium', collapsed: true});
       return;
     }
   }
