@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './Blog.Item.module.less';
 import MarkDownView from '../md-view/MarkDown.View';
-import DatePipe from 'src/components/ultilis/DatePipe/Date.Pipe';
+import DatePipe from 'src/components/ultilis/Date.Pipe';
 import { Icon, Button } from 'antd';
 
 interface BlogItemProps{

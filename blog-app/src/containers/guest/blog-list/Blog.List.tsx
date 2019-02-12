@@ -1,16 +1,20 @@
 import * as React from 'react';
 import axios from 'axios';
 import BlogListSkeleton from 'src/components/shared/blog-list-skeleton/Blog.List.Skeleton';
+import { RouteComponentProps } from 'react-router';
 
+interface BlogListProps extends RouteComponentProps{
+  backToTop: () => void;
+}
 interface BlogListState {
   response: BlogModule.BlogListResponse
   pageOptions: BlogModule.BlogListOptions
 }
 
-class BlogList extends React.Component<any, BlogListState> {
+class BlogList extends React.Component<BlogListProps, BlogListState> {
   // private pageOptions: BlogModule.BlogListOptions;
 
-  constructor(props: any) {
+  constructor(props: BlogListProps) {
     super(props);
     this.state = {
       response: {
@@ -27,10 +31,8 @@ class BlogList extends React.Component<any, BlogListState> {
     this.setPageOptions({});
   }
 
-  public shouldComponentUpdate(_nextProps: any, nextState: BlogListState) {
+  public shouldComponentUpdate(_nextProps: BlogListProps, nextState: BlogListState) {
     if (nextState.pageOptions !== this.state.pageOptions) {
-      console.log(nextState.pageOptions);
-      console.log('get blogs');
       this.getBlogs(nextState.pageOptions);
       return false;
     }
@@ -70,7 +72,7 @@ class BlogList extends React.Component<any, BlogListState> {
         total: (r.data as any).data.length
       }
     }).then(({ data, total }) => {
-      console.log(data);
+      this.props.backToTop();
       this.setState({
         response: {
           data,

@@ -19,17 +19,18 @@ interface BlogState {
   collapsed: boolean,
   screenHorizontalSize: ScreenHorizontalSize,
 }
+
 class Blog extends React.Component<RouteComponentProps, BlogState> {
+  private contentLayout: any;
   // for sub menu
-  private currentPath: string;
   private subBarColor = 'dark' as MenuTheme;
   private menuItems: Array<{
     type: string,
     name: string,
     to: string,
-    component: React.ComponentType
+    component?: React.ComponentType
   }> = [
-    {type: 'book', name: 'Blogs', to: 'list', component: BlogList},
+    {type: 'book', name: 'Blogs', to: 'list'},
     {type: 'tags', name: 'Tags', to: 'tags', component: BlogList},
     {type: 'folder', name: 'Categories', to: 'category', component: BlogList},
     {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogList},
@@ -57,7 +58,14 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
 
 
   public componentWillMount() {
-    this.currentPath = this.props.match.url + '/';
+    // update path in route config
+    const currentPath = this.props.match.url + '/';
+    this.menuItems = this.menuItems.map(i => ({
+      ...i,
+      to: currentPath + i.to
+    }));
+
+    // register event listener
     this.window.addEventListener('resize', this.windowResizeListener);
   }
 
@@ -94,10 +102,10 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
                 + (isCollapsed ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
             </div>
 
-            <Menu theme={this.subBarColor} defaultSelectedKeys={['1']} mode="inline">
+            <Menu theme={this.subBarColor} defaultSelectedKeys={['0']} mode="inline">
               {this.menuItems.map((item, index) => (
                 <Menu.Item key={index}>
-                  <Link key={index} to={this.currentPath + item.to}>
+                  <Link key={index} to={item.to}>
                     <Icon type={item.type} />
                     <span>{item.name}</span>
                   </Link>
@@ -111,22 +119,31 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
           style={{
             marginLeft: contentLayoutMarginLeft,
             height: '100vh',
-            overflow: 'auto',
             display: 'block'
           }}
           className={styles['content-wrapper']}>
-          <Content className={styles['content']}>
-            <Switch>
-              {this.menuItems.map((item, index) => (
-                <Route key={index} path={this.currentPath + item.to} component={item.component} />
-              ))}
-              <Route component={NotFound}/>
-            </Switch>
-          </Content>
+          <div
+            ref={(ref) => this.contentLayout = ref}
+            style={{
+            height: '100%',
+            overflow: 'auto'}}>
+            <Content className={styles['content']}>
+              <Switch>
+                {this.menuItems.map((item, index) => {
+                  if (item.name === 'Blogs') {
+                    // tslint:disable-next-line:jsx-no-lambda
+                    return <Route key={index} path={item.to} render={(props) => <BlogList {...props} backToTop={this.backToContentTop} />} />
+                  }
+                  return <Route key={index} path={item.to} component={(item.component as React.ComponentType)} />
+                })}
+                <Route component={NotFound} />
+              </Switch>
+            </Content>
 
-          <Footer style={{ textAlign: 'center' }}>
-            Zhan ©2019 Created by Love
-          </Footer>
+            <Footer style={{ textAlign: 'center' }}>
+              Zhan ©2019 Created by Love
+            </Footer>
+          </div>
         </Layout>
       </Layout>
     );
@@ -154,6 +171,12 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     }
   }
 
+  private backToContentTop = () => {
+    this.contentLayout.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 }
 
 export default Blog;
