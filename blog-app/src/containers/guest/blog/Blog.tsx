@@ -9,6 +9,7 @@ import {
 import { MenuTheme } from 'antd/lib/menu';
 import NotFound from 'src/components/shared/404/404';
 import BlogList from '../blog-list/Blog.List';
+import TagList from '../tag-list/Tag.List';
 
 const {
   Content, Footer, Sider,
@@ -23,7 +24,8 @@ interface BlogState {
 class Blog extends React.Component<RouteComponentProps, BlogState> {
   private contentLayout: any;
   // for sub menu
-  private subBarColor = 'dark' as MenuTheme;
+  private selectedItem: undefined | string[] = undefined;
+  private subBarColor = 'light' as MenuTheme;
   private menuItems: Array<{
     type: string,
     name: string,
@@ -31,7 +33,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     component?: React.ComponentType
   }> = [
     {type: 'book', name: 'Blogs', to: 'list'},
-    {type: 'tags', name: 'Tags', to: 'tags', component: BlogList},
+    {type: 'tags', name: 'Tags', to: 'tags', component: TagList},
     {type: 'folder', name: 'Categories', to: 'category', component: BlogList},
     {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogList},
     {type: 'smile', name: 'About', to: 'about', component: BlogList}
@@ -64,6 +66,14 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
       ...i,
       to: currentPath + i.to
     }));
+
+    // tslint:disable-next-line:prefer-for-of
+    for(let i = 0; i < this.menuItems.length; i++) {
+      if (this.menuItems[i].to === this.props.location.pathname) {
+        this.selectedItem = ['' + i];
+        return;
+      }
+    }
 
     // register event listener
     this.window.addEventListener('resize', this.windowResizeListener);
@@ -102,7 +112,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
                 + (isCollapsed ? styles['user-info-group__name--hidden'] : '')} >Zhan</p>
             </div>
 
-            <Menu theme={this.subBarColor} defaultSelectedKeys={['0']} mode="inline">
+            <Menu defaultSelectedKeys={this.selectedItem} theme={this.subBarColor} mode="inline">
               {this.menuItems.map((item, index) => (
                 <Menu.Item key={index}>
                   <Link key={index} to={item.to}>
