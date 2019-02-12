@@ -24,7 +24,52 @@ class BlogList extends React.Component<any, BlogListState> {
     }
   }
   public componentDidMount() {
-    this.getBlogList({}).then(({data, total}) => {
+    this.setPageOptions({});
+  }
+
+  public shouldComponentUpdate(_nextProps: any, nextState: BlogListState) {
+    if (nextState.pageOptions !== this.state.pageOptions) {
+      console.log(nextState.pageOptions);
+      console.log('get blogs');
+      this.getBlogs(nextState.pageOptions);
+      return false;
+    }
+    return true;
+  }
+
+  public render() {
+    const {data, total} = this.state.response;
+    const {limit} = this.state.pageOptions;
+    return (
+      <BlogListSkeleton
+        limit={limit}
+        data={data}
+        total={total}
+        pageChange={this.handlePageChange}
+        />
+    );
+  }
+
+  private handlePageChange = (pageNumber: number) => {
+    const offset = (pageNumber - 1) * this.state.pageOptions.limit;
+    this.setPageOptions({offset});
+  }
+
+  private setPageOptions(options: Partial<BlogModule.BlogListOptions>) {
+    this.setState((state: BlogListState) => {
+      const newPageOptions = Object.assign({}, state.pageOptions, options);
+      return {pageOptions: newPageOptions};
+    });
+  }
+
+  private getBlogs(options: Partial<BlogModule.BlogListOptions>): void {
+    axios.get('../fake-data/fake-blog-list.json').then(r => {
+      // @TODO fake pagination
+      return {
+        data: this.fakeDataProcess((r.data as any).data, options),
+        total: (r.data as any).data.length
+      }
+    }).then(({ data, total }) => {
       console.log(data);
       this.setState({
         response: {
@@ -35,36 +80,13 @@ class BlogList extends React.Component<any, BlogListState> {
     });
   }
 
-  public componentWillReceiveProps() {
-
+  private fakeDataProcess(data: BlogModule.Blog[], options: Partial<BlogModule.BlogListOptions>): BlogModule.Blog[] {
+    let newData = [...data];
+    if (options.offset !== undefined && options.limit !== undefined) {
+      newData = data.slice(options.offset, options.offset + options.limit)
+    }
+    return newData;
   }
-  public render() {
-    const {data, total} = this.state.response;
-    const {limit} = this.state.pageOptions;
-    return <BlogListSkeleton limit={limit} data={data} total={total}/>;
-  }
-
-  private getBlogList(options: Partial<BlogModule.BlogListOptions>): Promise<BlogModule.BlogListResponse> {
-
-    return axios.get('../fake-data/fake-blog-list.json').then(r => {
-
-      // @TODO fake pagination
-      // const data = (r.data as any).data;
-
-      return {
-        data: (r.data as any).data,
-        total: (r.data as any).data.length
-      }
-    });
-  }
-
-  // private fakeDataProcess(data: BlogModule.Blog[], options: Partial<BlogModule.BlogListOptions>): BlogModule.Blog[] {
-  //   let newData;
-  //   if (options.offset) {
-  //     newData = data.slice(options)
-  //   }
-  //   return data;
-  // }
 }
 
 export default BlogList;
