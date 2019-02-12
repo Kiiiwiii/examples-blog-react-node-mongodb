@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": "tag-1",
+      "name": "Angular"
+    },
+    {
+      "id": "tag-2",
+      "name": "React"
+    },
+    {
+      "id": "tag-3",
+      "name": "Polymer"
+    },
+    {
+      "id": "tag-4",
+      "name": "Travel"
+    },
+    {
+      "id": "tag-5",
+      "name": "Holiday"
+    },
+    {
+      "id": "tag-6",
+      "name": "Football"
+    }
+  ]
+}

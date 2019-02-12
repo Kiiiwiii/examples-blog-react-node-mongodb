@@ -31,3 +31,20 @@ declare namespace CategoryModule {
     //@TODO add more fields
   }
 }
+
+declare namespace TagModule {
+  interface Tag {
+    id: string,
+    name: string,
+  }
+  interface TagWithBlogs extends Tag {
+    blogs: BlogModule.Blog[]
+  }
+
+  interface ResultListResponse {
+    data: TagWithBlogs[];
+  }
+  interface ResultListPageOptions {
+    tags: string[];
+  }
+}
