@@ -1,6 +1,10 @@
+@import './variables.less';
+@import '~antd/lib/style/themes/default.less';
+
 #root{
 
-  // antd
+  // layout
+  // sidebar
   .ant-layout-sider-zero-width-trigger {
     top: 0;
   }
@@ -8,5 +12,22 @@
     text-align: center;
   }
 
+  // checkable tags
+  .ant-tag.ant-tag-checkable{
+    padding: 5px 10px;
+    height: 30px;
+    line-height: 20px;
+  }
+  .ant-tag-checkable {
+    border-color: @border-color-medium;
+    background-color: @white;
+    &:hover{
+      border-color: @primary-color
+    }
+  }
+  .ant-tag-checkable-checked{
+    border-color: @primary-color;
+    background-color: @primary-color;
+  }
   // other global settings
 }

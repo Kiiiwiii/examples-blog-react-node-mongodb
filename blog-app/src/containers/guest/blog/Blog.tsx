@@ -71,7 +71,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     for(let i = 0; i < this.menuItems.length; i++) {
       if (this.menuItems[i].to === this.props.location.pathname) {
         this.selectedItem = ['' + i];
-        return;
+        break;
       }
     }
 
