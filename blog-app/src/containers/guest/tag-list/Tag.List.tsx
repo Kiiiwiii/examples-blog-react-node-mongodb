@@ -98,17 +98,27 @@ class TagList extends React.Component<any, TagListState> {
   }
 
   private getBlogs(options: TagModule.ResultListPageOptions) {
-    console.log(options);
-    // axios.get().then((r: any) => {
-    //   // @TODO fake filtering
-    //   return {
-    //     data: (r.data as any).data
-    //   };
-    // }).then((data: TagModule.ResultListResponse) => {
-    //   this.setState({
-    //     response: data
-    //   })
-    // })
+    axios.get('../fake-data/tags.json').then((r: any) => {
+
+      // @TODO fake filtering, change here after backend is ready
+      const dataAfterFiltering: TagModule.TagWithBlogs[] = [];
+      ((r.data as TagModule.ResultListResponse).data).forEach(t => {
+        options.tags.forEach(o => {
+          if (t.id === o) {
+            dataAfterFiltering.push(t);
+          }
+        });
+      });
+      return {
+        data: dataAfterFiltering
+      };
+
+    }).then((data: TagModule.ResultListResponse) => {
+      console.log(data);
+      this.setState({
+        response: data
+      })
+    })
   }
 
   // private setPageOptions(options: Partial<TagModule.ResultListPageOptions>) {
