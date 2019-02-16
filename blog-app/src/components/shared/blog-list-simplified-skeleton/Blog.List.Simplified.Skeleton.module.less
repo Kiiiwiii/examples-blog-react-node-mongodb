@@ -11,8 +11,9 @@
   &::before {
     content: '\25B6';
     display: block;
-    font-size: calc(@font-size-sm - 2px);
+    font-size: calc(@font-size-sm - 3px);
     margin-right: 30px;
+    transition: transform @animation-duration-base @ease-in-out
   }
 
   &__title {
@@ -31,6 +32,16 @@
 
     .meta__text {
       margin-left: 5px
+    }
+  }
+
+  &:hover{
+    cursor: pointer;
+    .blog-item__title {
+      text-decoration: underline;
+    }
+    &::before{
+      transform: translateX(10px)
     }
   }
 }

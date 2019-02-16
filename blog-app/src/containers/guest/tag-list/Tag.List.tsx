@@ -19,12 +19,6 @@ interface TagListState {
 }
 
 class TagList extends React.Component<any, TagListState> {
-  private FakeBlogResponse = [
-    { title: '123' },
-    { title: '234' },
-    { title: '456' }
-  ];
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -51,16 +45,12 @@ class TagList extends React.Component<any, TagListState> {
     }
 
     if (nextState.storedTags !== this.state.storedTags) {
-      this.setState({
-        pageOptions: {
-          tags: nextState.storedTags.filter(tag => tag.checked).map(tag => tag.id)
-        }
-      })
+      this.setTags(nextState.storedTags);
     }
     return true;
   }
   public render() {
-    const {shownTags: tags} = this.state;
+    const {shownTags: tags, response} = this.state;
     return (
       <GeneralSearchWrapper
         searchContainerChildren={<div>
@@ -93,7 +83,8 @@ class TagList extends React.Component<any, TagListState> {
           </div>
 
         </div>}
-        data={this.FakeBlogResponse as any}/>
+        data={response.data}
+        isBlogCategorized={true}/>
     );
   }
 
@@ -121,12 +112,13 @@ class TagList extends React.Component<any, TagListState> {
     })
   }
 
-  // private setPageOptions(options: Partial<TagModule.ResultListPageOptions>) {
-  //   this.setState((state: TagListState) => {
-  //     const newPageOptions = Object.assign({}, state.pageOptions, options);
-  //     return { pageOptions: newPageOptions };
-  //   });
-  // }
+  private setTags(tags: TagWithState[]) {
+    this.setState({
+      pageOptions: {
+        tags: tags.filter(tag => tag.checked).map(tag => tag.id)
+      }
+    })
+  }
 
   private initializeAllTags() {
     axios.get('../fake-data/tags.json').then(r => {

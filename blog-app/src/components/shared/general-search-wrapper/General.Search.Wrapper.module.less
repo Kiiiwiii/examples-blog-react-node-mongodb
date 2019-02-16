@@ -3,5 +3,17 @@
 }
 
 .content-container{
-
+  .content{
+    &__item{
+      margin-bottom: 30px;
+    }
+    &__category-title{
+      display: flex;
+      &::before {
+        content: '|';
+        display: block;
+        margin-right: 10px;
+      }
+    }
+  }
 }
