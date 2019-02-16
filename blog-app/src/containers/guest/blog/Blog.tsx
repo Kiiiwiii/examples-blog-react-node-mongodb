@@ -150,7 +150,7 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
           className={styles['content-wrapper']}>
           <div
             ref={(ref) => this.contentLayout = ref}
-            style={{overflow: 'auto'}}>
+            style={{overflow: 'auto', height: '100%'}}>
             <Content className={styles['content']}>
               {/* all routes  */}
               <Switch>
