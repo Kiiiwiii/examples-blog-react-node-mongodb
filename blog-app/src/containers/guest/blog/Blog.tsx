@@ -10,6 +10,7 @@ import { MenuTheme } from 'antd/lib/menu';
 import NotFound from 'src/components/shared/404/404';
 import BlogList from '../blog-list/Blog.List';
 import TagList from '../tag-list/Tag.List';
+import BlogPage from '../blog-page/Blog.Page';
 
 const {
   Content, Footer, Sider,
@@ -36,8 +37,18 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     {type: 'tags', name: 'Tags', to: 'tags', component: TagList},
     {type: 'folder', name: 'Categories', to: 'category', component: BlogList},
     {type: 'calendar', name: 'Timeline', to: 'timeline', component: BlogList},
-    {type: 'smile', name: 'About', to: 'about', component: BlogList}
+    {type: 'smile', name: 'About', to: 'about', component: BlogList},
   ];
+
+  private routes: Array<{
+    path: string,
+    component: React.ComponentType,
+    to?: string;
+  }> = [
+    {path: 'page/:id', component: BlogPage}
+  ]
+
+
   // small screen size equals to 'md' breakpoint in antd,
   // and medium screen size equals to 'lg' breakpoint in antd.
   private widthOfSmallScreen = 768;
@@ -66,6 +77,11 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
       ...i,
       to: currentPath + i.to
     }));
+    this.routes = this.routes.map(i => ({
+      ...i,
+      path: currentPath + i.path
+    }));
+    console.log(this.routes);
 
     // tslint:disable-next-line:prefer-for-of
     for(let i = 0; i < this.menuItems.length; i++) {
@@ -136,14 +152,22 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
             ref={(ref) => this.contentLayout = ref}
             style={{overflow: 'auto'}}>
             <Content className={styles['content']}>
+              {/* all routes  */}
               <Switch>
-                {this.menuItems.map((item, index) => {
-                  if (item.name === 'Blogs') {
-                    // tslint:disable-next-line:jsx-no-lambda
-                    return <Route key={index} path={item.to} render={(props) => <BlogList {...props} backToTop={this.backToContentTop} />} />
-                  }
-                  return <Route key={index} path={item.to} component={(item.component as React.ComponentType)} />
-                })}
+                {
+                  this.menuItems.map((item, index) => {
+                    if (item.name === 'Blogs') {
+                      // tslint:disable-next-line:jsx-no-lambda
+                      return <Route key={index + 'menuItem'} path={item.to} render={(props) => <BlogList {...props} backToTop={this.backToContentTop} />} />
+                    }
+                    return <Route key={index + 'menuItem'} path={item.to} component={(item.component as React.ComponentType)} />
+                  })
+                }
+                {
+                  this.routes.map((item, index) => {
+                    return <Route key={index + 'route'} path={item.path} component={item.component}/>
+                  })
+                }
                 <Route component={NotFound} />
               </Switch>
             </Content>

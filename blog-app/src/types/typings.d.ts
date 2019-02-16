@@ -5,10 +5,10 @@ declare namespace BlogModule {
     summary: string,
     publishedAt: number,
 
-    content?: string,
     //@TODO change here when we have category and tags feature
     category: CategoryModule.Category,
     tags?: any,
+    content?: string,
 
   }
 

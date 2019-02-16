@@ -105,7 +105,6 @@ class TagList extends React.Component<any, TagListState> {
       };
 
     }).then((data: TagModule.ResultListResponse) => {
-      console.log(data);
       this.setState({
         response: data
       })

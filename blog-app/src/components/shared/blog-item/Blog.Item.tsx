@@ -3,18 +3,22 @@ import styles from './Blog.Item.module.less';
 import MarkDownView from '../md-view/MarkDown.View';
 import DatePipe from 'src/components/ultilis/Date.Pipe';
 import { Icon, Button } from 'antd';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { navigateToBlogPage } from 'src/components/ultilis/RouteProgrammaticallyNavigation';
 
-interface BlogItemProps{
-  title: string;
-  publishedAt: number;
-  category: CategoryModule.Category;
-  summary: string
-}
+interface BlogItemProps extends BlogModule.Blog, RouteComponentProps{}
 
-function BlogItem({title, summary, category, publishedAt}: BlogItemProps){
+function BlogItem({ id, title, summary, category, publishedAt, history }: BlogItemProps){
+  const goToBlogPage = (blogId: string) => {
+    return () => {
+      navigateToBlogPage(blogId, history);
+    }
+  }
   return (
     <div className={styles['blog-container']}>
-      <h3 className={styles['blog__header']}>{title}</h3>
+      <h3 className={styles['blog__header']} onClick={goToBlogPage(id)}>
+        <p className={styles['header__text']}>{title}</p>
+      </h3>
       <div className={styles['blog__meta']}>
         <Icon type="calendar" />
         <div>{DatePipe(publishedAt, 'MMMM Do YYYY')}</div>
@@ -26,10 +30,10 @@ function BlogItem({title, summary, category, publishedAt}: BlogItemProps){
         <MarkDownView source={summary}/>
       </div>
       <div className={styles['blog__read-more']}>
-        <Button type="primary">read more</Button>
+        <Button type="primary" onClick={goToBlogPage(id)}>read more</Button>
       </div>
     </div>
   )
 }
 
-export default BlogItem;
+export default withRouter(BlogItem);

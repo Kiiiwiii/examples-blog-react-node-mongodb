@@ -35,6 +35,7 @@ class BlogListSkeleton extends React.Component<BlogListSkeletonProps> {
         // tslint:disable-next-line:jsx-no-lambda
         renderItem={(item: BlogModule.Blog) => (
           <BlogItem
+            id={item.id}
             title={item.title}
             summary={item.summary}
             publishedAt={item.publishedAt}

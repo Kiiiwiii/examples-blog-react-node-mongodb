@@ -2,15 +2,26 @@ import * as React from 'react';
 import { List, Icon } from 'antd';
 import styles from './Blog.List.Simplified.Skeleton.module.less';
 import DatePipe from 'src/components/ultilis/Date.Pipe';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { navigateToBlogPage } from 'src/components/ultilis/RouteProgrammaticallyNavigation';
 
-function SimplifiedBlogList({ data }: { data: BlogModule.Blog[]} ) {
+interface BlogListProps extends RouteComponentProps {
+  data: BlogModule.Blog[]
+}
+
+function SimplifiedBlogList({ data, history }: BlogListProps) {
+  const goToBlogPage = (blogId: string) => {
+    return () => {
+      navigateToBlogPage(blogId, history);
+    }
+  }
   return (
     <List
       itemLayout="horizontal"
       dataSource={data}
       // tslint:disable-next-line:jsx-no-lambda
       renderItem={(item: BlogModule.Blog) => (
-        <div className={styles['blog-item']}>
+        <div className={styles['blog-item']} onClick={goToBlogPage(item.id)}>
           <div className={styles['blog-item__title']}>{item.title}</div>
           <div className={styles['blog-item__meta']}>
             <Icon type="calendar" />
@@ -22,4 +33,5 @@ function SimplifiedBlogList({ data }: { data: BlogModule.Blog[]} ) {
   )
 }
 
-export default SimplifiedBlogList;
+
+export default withRouter<BlogListProps>(SimplifiedBlogList);
