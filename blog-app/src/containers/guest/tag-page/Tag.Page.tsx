@@ -1,11 +1,29 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import getPageItemWrapperHOC from '../page-item-wrapper/Page.Item.Wrapper';
+import styles from './Tag.Page.module.less';
+import SimplifiedBlogList from '../../../components/shared/blog-list-simplified-skeleton/Blog.List.Simplified.Skeleton';
+import { Tag, Icon } from 'antd';
 
-class TagPage extends React.Component<RouteComponentProps> {
+
+interface TagPageProps {
+  data: TagModule.TagWithBlogs;
+}
+class TagPage extends React.Component<TagPageProps> {
   public render() {
-    console.log(this.props);
-    return 'tag page';
+    // @TODO change here when we have real data
+    let {data} = this.props;
+    data = (data as any).data[0];
+
+    return (
+      <div>
+        <div className={styles['header']}>
+          <Icon type="tag" />
+          <Tag className={styles['header__tag-name']}>{data.name}</Tag>
+        </div>
+        <SimplifiedBlogList data={data.blogs}/>;
+      </div>
+    );
   }
 }
 
-export default TagPage;
+export default getPageItemWrapperHOC(TagPage, '../../../fake-data/tags.json');
