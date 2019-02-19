@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Empty, Tag, Icon, Divider } from 'antd';
 import styles from './Blog.page.module.less';
 import DatePipe from 'src/components/ultilis/Date.Pipe';
 import MarkDownView from 'src/components/shared/md-view/MarkDown.View';
+import getProperNameForUrl from 'src/components/ultilis/UrlNameEncoding';
 
 interface BlogPageState {
   data: BlogModule.Blog | null
@@ -57,7 +58,10 @@ class BlogPage extends React.Component<BlogPageProps, BlogPageState> {
             </div>
             <div className={styles['blog__tags']}>
               Tags:
-              {data.tags.map(tag => <Tag className={styles['tag']} key={tag.id}>{tag.name}</Tag>)}
+              {data.tags.map(tag =>
+                <Tag className={styles['tag']} key={tag.id}>
+                  <Link to={`/blog/tag/${getProperNameForUrl(tag.name)}/${tag.id}`}>{tag.name}</Link>
+                </Tag>)}
             </div>
             <Divider />
             <MarkDownView source={data.content}/>
@@ -68,7 +72,7 @@ class BlogPage extends React.Component<BlogPageProps, BlogPageState> {
   }
 
   private getBlog(id: string) {
-    axios.get('../../fake-data/fake-blog-list.json').then((r: any) => {
+    axios.get('../../../fake-data/fake-blog-list.json').then((r: any) => {
 
       // @TODO fake filtering, change here after backend is ready
       const findedBlog: BlogModule.Blog | undefined =

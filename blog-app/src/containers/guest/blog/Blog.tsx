@@ -11,6 +11,7 @@ import NotFound from 'src/components/shared/404/404';
 import BlogList from '../blog-list/Blog.List';
 import TagList from '../tag-list/Tag.List';
 import BlogPage from '../blog-page/Blog.Page';
+import TagPage from '../tag-page/Tag.Page';
 
 const {
   Content, Footer, Sider,
@@ -45,7 +46,8 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
     component: React.ComponentType,
     to?: string;
   }> = [
-    {path: 'page/:id', component: BlogPage}
+    {path: 'page/:name/:id', component: BlogPage},
+    {path: 'tag/:name/:id', component: TagPage}
   ]
 
 

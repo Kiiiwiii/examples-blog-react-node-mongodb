@@ -10,9 +10,9 @@ interface BlogListProps extends RouteComponentProps {
 }
 
 function SimplifiedBlogList({ data, history }: BlogListProps) {
-  const goToBlogPage = (blogId: string) => {
+  const goToBlogPage = (title: string, blogId: string) => {
     return () => {
-      navigateToBlogPage(blogId, history);
+      navigateToBlogPage(title, blogId, history);
     }
   }
   return (
@@ -21,7 +21,7 @@ function SimplifiedBlogList({ data, history }: BlogListProps) {
       dataSource={data}
       // tslint:disable-next-line:jsx-no-lambda
       renderItem={(item: BlogModule.Blog) => (
-        <div className={styles['blog-item']} onClick={goToBlogPage(item.id)}>
+        <div className={styles['blog-item']} onClick={goToBlogPage(item.title, item.id)}>
           <div className={styles['blog-item__title']}>{item.title}</div>
           <div className={styles['blog-item__meta']}>
             <Icon type="calendar" />

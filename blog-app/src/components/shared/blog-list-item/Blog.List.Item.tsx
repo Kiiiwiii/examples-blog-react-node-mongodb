@@ -9,14 +9,14 @@ import { navigateToBlogPage } from 'src/components/ultilis/RouteProgrammatically
 interface BlogListItemProps extends Partial<BlogModule.Blog>, RouteComponentProps{}
 
 function BlogListItem({ id, title, summary, category, publishedAt, history }: BlogListItemProps){
-  const goToBlogPage = (blogId: string) => {
+  const goToBlogPage = (blogTitle: string, blogId: string) => {
     return () => {
-      navigateToBlogPage(blogId, history);
+      navigateToBlogPage(blogTitle, blogId, history);
     }
   }
   return (
     <div className={styles['blog-container']}>
-      <h3 className={styles['blog__header']} onClick={goToBlogPage(id as string)}>
+      <h3 className={styles['blog__header']} onClick={goToBlogPage(title as string, id as string)}>
         <div className={styles['header__text']}>{title}</div>
       </h3>
       <div className={styles['blog__meta']}>
@@ -30,7 +30,7 @@ function BlogListItem({ id, title, summary, category, publishedAt, history }: Bl
         <MarkDownView source={summary as string}/>
       </div>
       <div className={styles['blog__read-more']}>
-        <Button type="primary" onClick={goToBlogPage(id as string)}>read more</Button>
+        <Button type="primary" onClick={goToBlogPage(title as string, id as string)}>read more</Button>
       </div>
     </div>
   )
