@@ -1,14 +1,14 @@
 import * as React from 'react';
-import styles from './Blog.Item.module.less';
+import styles from './Blog.List.Item.module.less';
 import MarkDownView from '../md-view/MarkDown.View';
 import DatePipe from 'src/components/ultilis/Date.Pipe';
 import { Icon, Button } from 'antd';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { navigateToBlogPage } from 'src/components/ultilis/RouteProgrammaticallyNavigation';
 
-interface BlogItemProps extends BlogModule.Blog, RouteComponentProps{}
+interface BlogListItemProps extends Partial<BlogModule.Blog>, RouteComponentProps{}
 
-function BlogItem({ id, title, summary, category, publishedAt, history }: BlogItemProps){
+function BlogListItem({ id, title, summary, category, publishedAt, history }: BlogListItemProps){
   const goToBlogPage = (blogId: string) => {
     return () => {
       navigateToBlogPage(blogId, history);
@@ -16,24 +16,24 @@ function BlogItem({ id, title, summary, category, publishedAt, history }: BlogIt
   }
   return (
     <div className={styles['blog-container']}>
-      <h3 className={styles['blog__header']} onClick={goToBlogPage(id)}>
-        <p className={styles['header__text']}>{title}</p>
+      <h3 className={styles['blog__header']} onClick={goToBlogPage(id as string)}>
+        <div className={styles['header__text']}>{title}</div>
       </h3>
       <div className={styles['blog__meta']}>
         <Icon type="calendar" />
-        <div>{DatePipe(publishedAt, 'MMMM Do YYYY')}</div>
+        <div>{DatePipe(publishedAt as number, 'MMMM Do YYYY')}</div>
         <div className={styles['meta__split']}>|</div>
         <Icon type="folder" />
-        <div>{category.name}</div>
+        <div>{(category as CategoryModule.Category).name}</div>
       </div>
       <div className={styles['blog__overview']}>
-        <MarkDownView source={summary}/>
+        <MarkDownView source={summary as string}/>
       </div>
       <div className={styles['blog__read-more']}>
-        <Button type="primary" onClick={goToBlogPage(id)}>read more</Button>
+        <Button type="primary" onClick={goToBlogPage(id as string)}>read more</Button>
       </div>
     </div>
   )
 }
 
-export default withRouter(BlogItem);
+export default withRouter(BlogListItem);

@@ -1,0 +1,44 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../../../variables.less';
+
+.blog{
+  &__header{
+    font-size: @font-size-blog-title;
+  }
+  &__meta-group{
+    display: flex;
+    align-items: center;
+    color: @font-color-light;
+    margin: 5px 0;
+    font-size: @font-size-sm;
+    .meta-group{
+      &__date{
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+      }
+      &__placeholder{
+        margin: 0 20px;
+      }
+      &__category{
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        &:hover{
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  &__tags{
+    .tag{
+      background-color: @primary-4;
+      color: @white;
+      border: @border-width-base @border-style-base @primary-4;
+      &:first-child{
+        margin-left: 20px;
+      }
+    }
+  }
+}

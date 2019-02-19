@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {List} from 'antd';
-import BlogItem from '../blog-item/Blog.Item';
+import BlogListItem from '../blog-list-item/Blog.List.Item';
 
 interface BlogListSkeletonProps extends BlogModule.BlogListResponse{
   limit: number;
@@ -34,7 +34,7 @@ class BlogListSkeleton extends React.Component<BlogListSkeletonProps> {
         dataSource={this.blogs}
         // tslint:disable-next-line:jsx-no-lambda
         renderItem={(item: BlogModule.Blog) => (
-          <BlogItem
+          <BlogListItem
             id={item.id}
             title={item.title}
             summary={item.summary}

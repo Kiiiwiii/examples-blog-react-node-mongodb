@@ -12,7 +12,7 @@
   }
   .blog__header{
     text-align: left;
-    font-size: calc(@font-size-base * 2);
+    font-size: @font-size-blog-title;
     font-weight: @bold-medium;
     margin-bottom: 5px;
 
@@ -21,7 +21,7 @@
       content: '|';
       opacity: 0;
       transition: all @animation-duration-base @ease-in-out;
-
+      margin-right: -10px;
     }
     .header__text{
       transition: all @animation-duration-base @ease-in-out;

@@ -7,8 +7,8 @@ declare namespace BlogModule {
 
     //@TODO change here when we have category and tags feature
     category: CategoryModule.Category,
-    tags?: any,
-    content?: string,
+    tags: TagModule.Tag[],
+    content: string,
 
   }
 

@@ -81,7 +81,6 @@ class Blog extends React.Component<RouteComponentProps, BlogState> {
       ...i,
       path: currentPath + i.path
     }));
-    console.log(this.routes);
 
     // tslint:disable-next-line:prefer-for-of
     for(let i = 0; i < this.menuItems.length; i++) {
